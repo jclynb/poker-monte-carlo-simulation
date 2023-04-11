@@ -1,4 +1,4 @@
-# ♣️ ♦️ Poker Monte Carlo Simulation ♠️ ♥️
+# ♣️♦️ Poker Monte Carlo Simulation ♥️♠️
 ## [Monte carlo simulation](https://en.wikipedia.org/wiki/Monte_Carlo_method) of Texas Hold'em.
 Want a stochastic algorithm to help decide when to call, raise, or fold 'em before the flop?
 
