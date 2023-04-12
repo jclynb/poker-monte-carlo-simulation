@@ -31,29 +31,12 @@ class Player:
         self.sevencards.append(card1)
         self.sevencards.append(card2)
         self.sevencards.extend(communitycards)
-
-    def sort_by_repeated_then_value(self, fivecards):
-        # Sort a list of five cards first by highest number of repeated values then by highest value
-        # Ex: [8, 9, 2, 2, 2] -> [2, 2, 2, 9, 8]
-
-        # Special case for Wheel
-        if set(fivecards) == {14, 2, 3, 4, 5}:
-            return [5, 4, 3, 2, 1]
-    
-        counts = {}
-        for card in fivecards:
-            if card not in counts:
-                counts[card] = 1
-            else:
-                counts[card] += 1
-
-        return sorted(fivecards, key=lambda val: (counts[val], val), reverse=True)
     
     def compare_hands(self, a, b):
         """ Breaks a tie between two hands `a` and `b` where each is of the same
        rank (four of a kind, full house, etc.) by seeing which hand has the
-       higher valued cards. Returns -1 when `a` wins, 0 in the case of a true
-       tie, and 1 when `b` wins. """
+       higher valued cards. Returns 1 when `a` wins, 0 in the case of a true
+       tie, and -1 when `b` wins. """
         for a_element, b_element in zip(a, b):
             if a_element > b_element:
                 return 1
@@ -71,7 +54,7 @@ class Player:
             if set(ranks) == {14, 13, 12, 11, 10} and len(set(suits)) == 1:
                 ranking = 9 
             # Check for straight flush
-            elif len(set(suits)) == 1 and max(ranks) - min(ranks) == 4:
+            elif len(set(suits)) == 1 and max(ranks) - min(ranks) == 4 and len(set(ranks)) == 5:
                 ranking = 8
             # Check for four of a kind
             elif len(set(ranks)) == 2 and (ranks.count(ranks[0]) == 1 or ranks.count(ranks[0]) == 4):
@@ -83,14 +66,20 @@ class Player:
             elif len(set(suits)) == 1:
                 if set(ranks) == {14, 2, 3, 4, 5}: # special case wheel (ace is low)
                     ranking = 8
+                    for i in range(len(ranks)):
+                        if ranks[i] == 14:
+                            ranks[i] = 1
                 else:
                     ranking = 5
             # Check for straight
-            elif (max(ranks) - min(ranks) == 4):
+            elif (max(ranks) - min(ranks) == 4) and len(set(ranks)) == 5:
                 ranking = 4 
             # Check for wheel (ace is low)
             elif set(ranks) == {14, 2, 3, 4, 5}:
                 ranking = 4
+                for i in range(len(ranks)):
+                    if ranks[i] == 14:
+                        ranks[i] = 1
             # Check for three of a kind
             elif any(ranks.count(rank) == 3 for rank in set(ranks)):
                 ranking = 3
@@ -106,12 +95,12 @@ class Player:
             
             if ranking > self.handrank:
                 self.handrank = ranking
-                self.hand = self.sort_by_repeated_then_value(ranks)
+                self.hand = sorted(ranks, reverse=True)
             
             # If the current combination has the same ranking as the current best handrank, 
             # sort the combination then compare the two hands
             elif ranking == self.handrank:
-                curr_hand = self.sort_by_repeated_then_value(ranks)
+                curr_hand = sorted(ranks, reverse=True)
                 cmp = self.compare_hands(curr_hand, self.hand)
                 if cmp == 1:
                     self.hand = curr_hand

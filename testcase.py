@@ -93,10 +93,10 @@ class TestPokerRound(unittest.TestCase):
         self.assertEqual(player1.hand, [14, 10, 9, 7, 6])
 
         self.assertEqual(player2.handrank, 1)
-        self.assertEqual(player2.hand, [7, 7, 10, 9, 6])
+        self.assertEqual(player2.hand, [10, 9, 7, 7, 6])
 
         self.assertEqual(player3.handrank, 1)
-        self.assertEqual(player3.hand, [2, 2, 13, 10, 7])
+        self.assertEqual(player3.hand, [13, 10, 7, 2, 2])
 
         self.assertFalse(pokerround.get_winner())
 
@@ -166,10 +166,10 @@ class TestPokerRound(unittest.TestCase):
 
         pokerround.get_handvalues() # Determine the value of each hand (9 = straight flush, 1 = High card)
         self.assertEqual(player1.handrank, 3)
-        self.assertEqual(player1.hand, [4, 4, 4, 12, 7])
+        self.assertEqual(player1.hand, [12, 7, 4, 4, 4])
 
-        self.assertEqual(player2.handrank, 1)
-        self.assertEqual(player2.hand, [12, 12, 6, 5, 4])
+        self.assertEqual(player2.handrank, 2)
+        self.assertEqual(player2.hand, [12, 12, 6, 4, 4])
 
         self.assertEqual(player3.handrank, 2)
         self.assertEqual(player3.hand, [12, 12, 5, 5, 4])

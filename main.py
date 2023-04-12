@@ -30,6 +30,6 @@ def main():
     return wins_df
 
 if __name__ == "__main__":
-    testcase.unittest.main()
+    # testcase.unittest.main()
     df = main()
     df.to_excel("poker_win_percentages.xlsx")

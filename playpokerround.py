@@ -69,7 +69,7 @@ class PlayPokerRound:
         """ Determines if player1 won the round. First checks if player1 has the highest rank,
         and if so the compares hands for top pair/high cards/kickers if one or more oppoents have the same rank.
         Returns True if player1 wins, or False if player1 lost or tied """
-        self.players.sort(key=lambda x: x.handrank) # sort players by hand value
+        self.players.sort(key=lambda x: x.handrank, reverse=True) # sort players by hand value
  
         if self.player1.handrank < self.players[0].handrank:
             return False
